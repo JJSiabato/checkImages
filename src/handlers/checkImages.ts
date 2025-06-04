@@ -9,7 +9,7 @@ export async function checkImages(ctx: Context) {
     imageUrl: string;
   }> = [];
 
-  const images = request.body || ([] as Array<{ ImageUrl: string }>);
+  const images = request.body || ([] as Array<{ imageUrl: string }>);
 
   if (!Array.isArray(images)) {
     ctx.status = 400;
@@ -25,7 +25,7 @@ export async function checkImages(ctx: Context) {
 
   for (const image of images) {
     try {
-      const response = await fetch(image.ImageUrl);
+      const response = await fetch(image.imageUrl);
       if (!response.ok) {
         throw new Error(`${response.statusText}`);
       }
@@ -35,7 +35,7 @@ export async function checkImages(ctx: Context) {
       ctxBody.push({
         message: "Image fetched successfully",
         valid: true,
-        imageUrl: image.ImageUrl,
+        imageUrl: image.imageUrl,
       });
     } catch (error) {
       ctxBody.push({
@@ -43,7 +43,7 @@ export async function checkImages(ctx: Context) {
           error instanceof Error ? error.message : "Unknown error"
         }`,
         valid: false,
-        imageUrl: image.ImageUrl,
+        imageUrl: image.imageUrl,
       });
     }
   }
