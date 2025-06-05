@@ -11,7 +11,7 @@ const router = new Router();
 // Middleware global
 app.use(bodyParser());
 
-// Rutas desde la config
+// route definitions
 routes.forEach(route => {
   const handlerFn = getHandlerFunction(route.handler);
   const middlewareFns = (route.middlewares || []).map(name => (middlewares as any)[name]);
@@ -24,7 +24,7 @@ app.use(router.allowedMethods());
 
 export default app;
 
-// Utilidad para obtener el handler desde string "modulo.función"
+// use this function to dynamically import the handler function based on the path
 function getHandlerFunction(path: string) {
   const [mod, fn] = path.split('.');
   const modRef = require(`./handlers/${mod}`);
