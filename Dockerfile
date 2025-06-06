@@ -4,11 +4,14 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN yarn install --production
+RUN yarn install --frozen-lockfile
 
 COPY . .
 
+# Construir la aplicación
 RUN yarn build
+
+RUN yarn install --production --frozen-lockfile && yarn cache clean
 
 EXPOSE 3000
 
